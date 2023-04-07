@@ -4,6 +4,7 @@ python3 -m fastchat.serve.cli --model ~/model_weights/llama-7b
 """
 import argparse
 import time
+from colorama import Fore
 
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
@@ -130,7 +131,7 @@ def main(args):
             "stop": conv.sep if conv.sep_style == SeparatorStyle.SINGLE else conv.sep2,
         }
 
-        print(f"{conv.roles[1]}: ", end="", flush=True)
+        print(Fore.GREEN+f"{conv.roles[1]}: ", end="", flush=True) # Or your choice of color for the assistant's text :)
         pre = 0
         for outputs in generate_stream(tokenizer, model, params, args.device):
             outputs = outputs[len(prompt) + 1:].strip()
@@ -140,7 +141,9 @@ def main(args):
                 print(" ".join(outputs[pre:now-1]), end=" ", flush=True)
                 pre = now - 1
         print(" ".join(outputs[pre:]), flush=True)
-
+        
+        print(Fore.WHITE+"") # Back to the user's color
+        
         conv.messages[-1][-1] = " ".join(outputs)
 
         if args.debug:
