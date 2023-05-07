@@ -75,6 +75,8 @@ python3 -m fastchat.model.apply_delta \
     --delta lmsys/vicuna-13b-delta-v0
 ```
 
+Alternatively, just do `python download-model.py anon8231489123/vicuna-13b-GPTQ-4bit-128g` to get the precomputed weights. This is copied from thisserand's Google Colab sheet.
+
 ### Vicuna-7B
 Coming soon.
 
