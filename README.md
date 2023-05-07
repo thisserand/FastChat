@@ -75,10 +75,23 @@ python3 -m fastchat.model.apply_delta \
     --delta lmsys/vicuna-13b-delta-v0
 ```
 
-Alternatively, just do `python download-model.py anon8231489123/vicuna-13b-GPTQ-4bit-128g` to get the precomputed weights. This is copied from thisserand's Google Colab sheet.
+Alternatively just do `python download-model.py anon8231489123/vicuna-13b-GPTQ-4bit-128g` to get the precomputed weights. This is copied from thisserand's Google Colab sheet.
 
 ### Vicuna-7B
 Coming soon.
+
+## Install CUDA
+
+## Install GPTQ-forLLaMa 
+
+```bash
+cd FastChat
+mkdir repositories
+cd repositories
+git clone https://github.com/oobabooga/GPTQ-for-LLaMa.git -b cuda
+cd GPTQ-for-LLaMa
+python setup_cuda.py install
+cd ../..
 
 ## Serving
 
