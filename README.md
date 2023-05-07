@@ -35,6 +35,13 @@ pip3 install git+https://github.com/huggingface/transformers@c612628045822f90902
 
 ### Method 2: From source
 
+0. Create a virtual environment. This was tested on Ubuntu 18.04 with python 3.9.5 but should work in other Ubuntu/Python combinations
+
+```bash
+python3.9 -m venv ~/.venv/fastchat
+. ~/.venv/fastchat/bin/activate
+```
+
 1. Clone this repository and navigate to FastChat folder
 ```bash
 git clone https://github.com/lm-sys/FastChat.git
