@@ -108,7 +108,8 @@ EleutherAI/pythia-1.4b-deduped
 
 def get_download_links_from_huggingface(model, branch):
     base = "https://huggingface.co"
-    page = f"/api/models/{model}/tree/{branch}?cursor="
+    # Fix from https://github.com/oobabooga/text-generation-webui/pull/1373
+    page = f"/api/models/{model}/tree/{branch}"
     cursor = b""
 
     links = []
@@ -120,7 +121,12 @@ def get_download_links_from_huggingface(model, branch):
     has_safetensors = False
     is_lora = False
     while True:
-        content = requests.get(f"{base}{page}{cursor.decode()}").content
+        # Fix from https://github.com/oobabooga/text-generation-webui/pull/1373
+        #content = requests.get(f"{base}{page}{cursor.decode()}").content
+        url = f"{base}{page}" + (f"?cursor={cursor.decode()}" if cursor else "")
+        r = requests.get(url)
+        r.raise_for_status()
+        content = r.content
 
         dict = json.loads(content)
         if len(dict) == 0:
