@@ -108,7 +108,7 @@ EleutherAI/pythia-1.4b-deduped
 
 def get_download_links_from_huggingface(model, branch):
     base = "https://huggingface.co"
-    page = f"/api/models/{model}/tree/{branch}?cursor="
+    page = f"/api/models/{model}/tree/{branch}"
     cursor = b""
 
     links = []
@@ -120,11 +120,16 @@ def get_download_links_from_huggingface(model, branch):
     has_safetensors = False
     is_lora = False
     while True:
-        content = requests.get(f"{base}{page}{cursor.decode()}").content
-
+        # Fix empty cursor error: {"error":"\"cursor\" is not allowed to be empty"}
+        if len(cursor) == 0:
+            content = requests.get(f"{base}{page}").content
+        else:
+            content = requests.get(f"{base}{page}?cursor={cursor.decode()}").content
+            
         dict = json.loads(content)
         if len(dict) == 0:
             break
+
 
         for i in range(len(dict)):
             fname = dict[i]['path']
