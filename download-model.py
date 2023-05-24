@@ -74,6 +74,7 @@ def select_model_from_default_options():
         "Pythia-2.8B-deduped": ("EleutherAI", "pythia-2.8b-deduped", "main"),
         "Pythia-1.4B-deduped": ("EleutherAI", "pythia-1.4b-deduped", "main"),
         "Pythia-410M-deduped": ("EleutherAI", "pythia-410m-deduped", "main"),
+        "Vicuna-13B-Q": ("anon8231489123", "vicuna-13b-GPTQ-4bit-128g", "main")
     }
     choices = {}
 
@@ -120,7 +121,8 @@ def get_download_links_from_huggingface(model, branch):
     has_safetensors = False
     is_lora = False
     while True:
-        content = requests.get(f"{base}{page}{cursor.decode()}").content
+        cursor_string = "" if len(cursor) == 0 else f"?cursor={cursor.decode()}"
+        content = requests.get(f"{base}/api/models/{model}/tree/{branch}{cursor_string}").content
 
         dict = json.loads(content)
         if len(dict) == 0:
